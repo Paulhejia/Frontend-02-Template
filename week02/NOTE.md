@@ -57,9 +57,11 @@ encodeURIComponent 也是把字符串转成 utf16
 
 ## 对Number 双精度浮点数有了重新的认识
 
-https://www.boatsky.com/blog/26
-
 ### IEEE 754 的双精度 （64位）
+IEEE 754 的双精度 https://www.boatsky.com/blog/26 
+
+进制转换工具 http://www.binaryconvert.com/result_double.html?decimal=048046049
+
 1位数符  +   11位阶码   +   52位尾数
 
 数符S(sign)：标记正负，0为正，1为负
@@ -83,7 +85,24 @@ v = 1
 
 有时间再继续验证自己的想法是不是正确的 
 
-
-
 那么 log2(1) = 0 // 所以解码真值为0 所以阶码 E = 1023 = 01111111111
 
+## js 进制转换
+
+parseInt(num, type)
+
+- num: origin
+- type: 现在是x进制 转成10
+
+> 如果非10进制，要先转成10进制，再转其他
+
+parseInt(num,8);   //八进制转十进制
+parseInt(num,16);   //十六进制转十进制
+parseInt(num).toString(8)  //十进制转八进制
+parseInt(num).toString(16)   //十进制转十六进制
+parseInt(num,2).toString(8)   //二进制转八进制
+parseInt(num,2).toString(16)  //二进制转十六进制
+parseInt(num,8).toString(2)   //八进制转二进制
+parseInt(num,8).toString(16)  //八进制转十六进制
+parseInt(num,16).toString(2)  //十六进制转二进制
+parseInt(num,16).toString(8)  //十六进制转八进制

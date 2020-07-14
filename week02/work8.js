@@ -82,8 +82,10 @@ if (typeof TextEncoder === "undefined") {
 }
 
 // 方法二
+// 通过 encodeURIComponent 转化为 utf-16 编码
+// 然后把 16进制转成二进制
 
-function UTF8_encoding(text) {
+function UTF8_encoding2(text) {
     const code = encodeURIComponent(text);
     const bytes = [];
     for (var i = 0; i < code.length; i++) {
@@ -99,3 +101,4 @@ function UTF8_encoding(text) {
 }
 
 UTF8_encoding('奥利给')
+UTF8_encoding2('奥利给')
