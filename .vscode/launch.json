@@ -1,0 +1,65 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [ 
+    {
+        "name": "Attach to Process",
+        "type": "node",
+        "request": "attach",
+        "port": 9229
+    },     
+    {
+        "name": "client",
+        "program": "${workspaceFolder}/week04/ToyBrowser/client.js",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node",
+        "runtimeVersion": "10.19.0",
+    },
+    {
+        "name": "parser",
+        "program": "${workspaceFolder}/week04/ToyBrowser/htmlParser.js",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node",
+        "runtimeVersion": "10.19.0",
+    },
+    {
+        "name": "abcabc",
+        "program": "${workspaceFolder}/week04/lessonTest/abcabx.js",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node",
+        "runtimeVersion": "10.19.0",
+    },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "runtimeArgs": [
+                "--inspect"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/week04/homework.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "find_a",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/week04/find_a.js"
+        }
+    ]
+}

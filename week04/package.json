@@ -1,0 +1,15 @@
+{
+  "name": "week04",
+  "version": "1.0.0",
+  "description": "",
+  "main": "find_a.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "net": "^1.0.2"
+  }
+}
