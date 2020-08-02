@@ -12,7 +12,7 @@
     },     
     {
         "name": "client",
-        "program": "${workspaceFolder}/week04/ToyBrowser/client.js",
+        "program": "${workspaceFolder}/week05/ToyBrowser/client.js",
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"
@@ -22,7 +22,7 @@
     },
     {
         "name": "parser",
-        "program": "${workspaceFolder}/week04/ToyBrowser/htmlParser.js",
+        "program": "${workspaceFolder}/week05/ToyBrowser/htmlParser.js",
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"
@@ -32,7 +32,7 @@
     },
     {
         "name": "abcabc",
-        "program": "${workspaceFolder}/week04/lessonTest/abcabx.js",
+        "program": "${workspaceFolder}/week05/lessonTest/abcabx.js",
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"

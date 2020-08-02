@@ -20,6 +20,7 @@ http
 
 htmlParser 在 /ToyBrowser/htmlParser.js
 
-这周内容好多啊，学会了根据 url生成http报文，  http 的解析与 bodyParser ，对状态机的理解更加深刻了
+这周内容好多啊，痛并成长着；
+学会了根据 url生成http报文，  http 的解析与 bodyParser ，对状态机的理解更加深刻了
 html 的解析与dom 树构成原理
-每一步一个脚印吧，感觉自己对学习的时间分配还不够，必须得自己沉淀一下
+每一步一个脚印吧，感觉自己对学习的时间分配还不够，必须得自己沉淀一下，继续努力
