@@ -78,3 +78,5 @@ Note that the ::first-letter element is inside the ::first-line element. Propert
 
 ```
 我只是猜测 ::first-line 是基于 ::first-letter 生成的（根执行顺序有关），样式也是要继承于 first-letter, 而且first-line 如果也能设置 float 盒模型，这样样式也很难控制了
+
+first-letter是在布局完成之后，确定了一段文字中的第一个文字，可以对其操作布局时性能开销小； 而first-line选中的是第一行文字，不同的宽度选中的文字内容不一样，要对其重新布局排版消耗性能大,所以first-letter 可以设置 float 之类的，而 first-line 不行。
