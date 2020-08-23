@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>对Window上所有的 API 进行分类</title>
+</head>
+
+<body>
+  <script>
+   let names = Object.getOwnPropertyNames(window);
+    let filterStart = (start) => {
+        names = names.filter(item => !item.startsWith(start));
+    }
+
+    let check = function () {
+        let raw = Object.getOwnPropertyNames(window);
+        return propArray => {
+            let resultSet = new Set();
+            propArray.forEach(item => resultSet.add(item));
+            resultSet.forEach(prop => {
+                if (raw.indexOf(prop) < 0)
+                    console.error(`属性${prop}不存在，请确认`)
+            })
+            names = names.filter(item => !resultSet.has(item));
+            return resultSet;
+        }
+    }();
+
+    // node相关
+    names = names.filter(e => {
+        try {
+            return !(window[e].prototype instanceof Node)
+        } catch (error) {
+            return true;
+        }
+    }).filter(e => e != "Node");
+
+    // ECMA 262 #18 The Global Object：https://tc39.es/ecma262/#sec-global-object
+    let ecma262 = check(["globalThis", "Infinity", "NaN", "undefined", "eval", "isFinite", "isNaN", "parseFloat", "parseInt", "decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent", "Array", "ArrayBuffer", "Boolean", "DataView", "Date", "Error", "EvalError", "Float32Array", "Float64Array", "Function", "Int8Array", "Int16Array", "Int32Array", "Map", "Number", "Object", "Proxy", "Promise", "RangeError", "ReferenceError", "RegExp", "Set", "String", "Symbol", "SyntaxError", "TypeError", "Uint8Array", "Uint8ClampedArray", "Uint16Array", "Uint32Array", "URIError", "WeakMap", "WeakSet", "JSON", "Math", "Reflect", "escape", "unescape"]);
+
+    let ecma402 = check(["Intl"]);
+
+    let tc39Proposal = check(["BigInt", "BigInt64Array", "BigUint64Array"])
+
+
+    // whatwg 
+
+    let whatwg = check([
+        // https://console.spec.whatwg.org/
+        ...['console'],
+        // https://html.spec.whatwg.org/#the-window-object
+        ...["window", "self", "document", "name", "location", "history", "customElements", "locationbar", "menubar", "personalbar", "scrollbars", "statusbar", "toolbar", "status", "close", "closed", "stop", "focus", "blur", "frames", "length", "top", "opener", "parent", "frameElement", "open", "navigator", "applicationCache", "alert", "alert", "confirm", "prompt", "print", "postMessage", "postMessage"],
+        // https://html.spec.whatwg.org/#all-interfaces
+        ...["ApplicationCache", "AudioTrack", "AudioTrackList", "BarProp", "BeforeUnloadEvent", "BroadcastChannel", "CanvasGradient", "CanvasPattern", "CanvasRenderingContext2D", "CloseEvent", "CustomElementRegistry", "DOMParser", "DOMStringList", "DOMStringMap", "DataTransfer", "DataTransferItem", "DataTransferItemList", "DedicatedWorkerGlobalScope", "Document", "DragEvent", "ElementInternals", "ErrorEvent", "EventSource", "External", "FormDataEvent", "HTMLAllCollection", "HTMLAnchorElement", "HTMLAreaElement", "HTMLAudioElement", "HTMLBRElement", "HTMLBaseElement", "HTMLBodyElement", "HTMLButtonElement", "HTMLCanvasElement", "HTMLDListElement", "HTMLDataElement", "HTMLDataListElement", "HTMLDetailsElement", "HTMLDialogElement", "HTMLDirectoryElement", "HTMLDivElement", "HTMLElement", "HTMLEmbedElement", "HTMLFieldSetElement", "HTMLFontElement", "HTMLFormControlsCollection", "HTMLFormElement", "HTMLFrameElement", "HTMLFrameSetElement", "HTMLHRElement", "HTMLHeadElement", "HTMLHeadingElement", "HTMLHtmlElement", "HTMLIFrameElement", "HTMLImageElement", "HTMLInputElement", "HTMLLIElement", "HTMLLabelElement", "HTMLLegendElement", "HTMLLinkElement", "HTMLMapElement", "HTMLMarqueeElement", "HTMLMediaElement", "HTMLMenuElement", "HTMLMetaElement", "HTMLMeterElement", "HTMLModElement", "HTMLOListElement", "HTMLObjectElement", "HTMLOptGroupElement", "HTMLOptionElement", "HTMLOptionsCollection", "HTMLOutputElement", "HTMLParagraphElement", "HTMLParamElement", "HTMLPictureElement", "HTMLPreElement", "HTMLProgressElement", "HTMLQuoteElement", "HTMLScriptElement", "HTMLSelectElement", "HTMLSlotElement", "HTMLSourceElement", "HTMLSpanElement", "HTMLStyleElement", "HTMLTableCaptionElement", "HTMLTableCellElement", "HTMLTableColElement", "HTMLTableElement", "HTMLTableRowElement", "HTMLTableSectionElement", "HTMLTemplateElement", "HTMLTextAreaElement", "HTMLTimeElement", "HTMLTitleElement", "HTMLTrackElement", "HTMLUListElement", "HTMLUnknownElement", "HTMLVideoElement", "HashChangeEvent", "History", "ImageBitmap", "ImageBitmapRenderingContext", "ImageData", "Location", "MediaError", "MessageChannel", "MessageEvent", "MessagePort", "MimeType", "MimeTypeArray", "Navigator", "OffscreenCanvas", "OffscreenCanvasRenderingContext2D", "PageTransitionEvent", "Path2D", "Plugin", "PluginArray", "PopStateEvent", "PromiseRejectionEvent", "RadioNodeList", "SharedWorker", "SharedWorkerGlobalScope", "Storage", "StorageEvent", "SubmitEvent", "TextMetrics", "TextTrack", "TextTrackCue", "TextTrackCueList", "TextTrackList", "TimeRanges", "TrackEvent", "ValidityState", "VideoTrack", "VideoTrackList", "WebSocket", "Window", "Worker", "WorkerGlobalScope", "WorkerLocation", "WorkerNavigator"],
+        // https://encoding.spec.whatwg.org/
+        ...["TextDecoder", "TextEncoder", "TextDecoderStream", "TextEncoderStream"],
+        // https://fetch.spec.whatwg.org/#fetch-api
+        ...["fetch", "Headers", "Request", "Response"],
+        // https://notifications.spec.whatwg.org/#service-worker-api
+        ...["Notification", "ServiceWorker", "ServiceWorkerRegistration"],
+        // https://storage.spec.whatwg.org/
+        ...["caches", "indexedDB", "Storage", "StorageManager", "StorageEvent", "localStorage", "sessionStorage"],
+        // https://url.spec.whatwg.org/#api
+        ...["URL"],
+        // https://xhr.spec.whatwg.org/#interface-xmlhttprequest
+        ...["XMLHttpRequest", "XMLHttpRequestEventTarget", "XMLHttpRequestUpload", "FormData", "ProgressEvent"],
+        // https://dom.spec.whatwg.org/
+        ...["Event", "CustomEvent", "EventTarget", "AbortController", "AbortSignal", "NodeList", "HTMLCollection", "MutationObserver", "MutationRecord", "Node", "Document", "DOMImplementation", "DocumentType", "DocumentFragment", "ShadowRoot", "Element", "NamedNodeMap", "Attr", "CharacterData", "Text", "CDATASection", "ProcessingInstruction", "Comment", "AbstractRange", "StaticRange", "Range", "NodeIterator", "TreeWalker", "NodeFilter", "DOMTokenList", "XPathResult", "XPathExpression", "XPathEvaluator"],
+        ...["MediaStreamTrackEvent", "MediaStreamTrack", "MediaStreamEvent", "MediaStream", "DecompressionStream", "CompressionStream", "CanvasCaptureMediaStreamTrack", "WritableStreamDefaultWriter", "WritableStream", "CountQueuingStrategy", "WritableStreamDefaultController", "ByteLengthQueuingStrategy", "TransformStream", "TransformStreamDefaultController", "ReadableStreamDefaultReader", "ReadableStreamBYOBReader", "ReadableByteStreamController", "ReadableStreamBYOBRequest", "ReadableStreamDefaultController", "ReadableStream"],
+    ])
+
+    // webaudio https://webaudio.github.io/web-audio-api/#APIOverview
+    let webaudio = check(["AudioContext", "AudioNode", "AnalyserNode", "AudioBuffer", "AudioBufferSourceNode", "AudioDestinationNode", "AudioParam", "AudioListener", "AudioWorklet", "AudioWorkletNode", "BiquadFilterNode", "ChannelMergerNode", "ChannelSplitterNode", "ConstantSourceNode", "ConvolverNode", "DelayNode", "DynamicsCompressorNode", "GainNode", "IIRFilterNode", "MediaElementAudioSourceNode", "MediaStreamAudioSourceNode", "MediaStreamAudioDestinationNode", "PannerNode", "PeriodicWave", "OscillatorNode", "StereoPannerNode", "WaveShaperNode", "ScriptProcessorNode", "AudioProcessingEvent"])
+
+    // IDB https://www.w3.org/TR/IndexedDB    https://www.w3.org/TR/IndexedDB/#index-defined-here
+    let IndexDBs = check(["IDBRequest", "IDBFactory", "IDBVersionChangeEvent", "IDBDatabase", "IDBObjectStore", "IDBIndex", "IDBKeyRange", "IDBCursor", "IDBTransaction", "IDBCursorWithValue", "IDBOpenDBRequest"]);
+
+    // svgs  https://www.w3.org/TR/SVG11/types.html   https://www.w3.org/TR/SVG11/coords.html
+    let svgs = check(["SVGElement", "SVGAnimatedBoolean", "SVGAnimatedString", "SVGStringList", "SVGAnimatedEnumeration", "SVGAnimatedInteger", "SVGNumber", "SVGAnimatedNumber", "SVGNumberList", "SVGAnimatedNumberList", "SVGLength", "SVGAnimatedLength", "SVGLengthList", "SVGAnimatedLengthList", "SVGAngle", "SVGAnimatedAngle", "SVGColor", "SVGICCColor", "SVGRect", "SVGAnimatedRect", "SVGUnitTypes", "SVGStylable", "SVGLocatable", "SVGTransformable", "SVGTests", "SVGLangSpace", "SVGExternalResourcesRequired", "SVGFitToViewBox", "SVGZoomAndPan", "SVGViewSpec", "SVGURIReference", "SVGCSSRule", "SVGRenderingIntent",
+        "SVGPoint", "SVGPointList", "SVGMatrix", "SVGTransform", "SVGTransformList", "SVGAnimatedTransformList", "SVGPreserveAspectRatio", "SVGAnimatedPreserveAspectRatio"])
+
+    // performance https://developer.mozilla.org/zh-CN/docs/Web/API/Performance
+    filterStart("Performance");
+
+    // MIDI https://webaudio.github.io/web-midi-api/
+    filterStart("MIDI");
+
+    // WebUSB https://wicg.github.io/webusb
+    filterStart("USB");
+
+    // WebXR https://immersive-web.github.io/webxr/
+    filterStart("XR");
+
+    // WebBluetooth https://webbluetoothcg.github.io/web-bluetooth/
+    filterStart("Bluetooth");
+
+    // https://w3c.github.io/encrypted-media/
+    filterStart("MediaKey");
+
+    // presentation https://w3c.github.io/presentation-api/
+    filterStart("Presentation");
+
+    // CSSOM https://drafts.csswg.org/cssom-view/#extensions-to-the-window-interface https://drafts.csswg.org/cssom/  https://drafts.csswg.org/cssom
+    let cssoms = check(["matchMedia", "screen", "moveTo", "moveBy", "resizeTo", "resizeBy", "innerWidth", "innerHeight", "scrollX", "pageXOffset", "scrollY", "pageYOffset", "scroll", "scroll", "scrollTo", "scrollTo", "scrollBy", "scrollBy", "screenX", "screenLeft", "screenY", "screenTop", "outerWidth", "outerHeight", "devicePixelRatio",
+        "MediaList", "StyleSheet", "CSSStyleSheet", "StyleSheetList", "LinkStyle", "CSSRuleList", "CSSRule", "CSSStyleRule", "CSSImportRule", "CSSGroupingRule", "CSSMediaRule", "CSSPageRule", "CSSMarginRule", "CSSNamespaceRule", "CSSStyleDeclaration"])
+    filterStart("CSS");
+
+    // https://drafts.fxtf.org/geometry/
+    filterStart("DOM")
+
+    // webkits
+    filterStart('webkit');
+
+    // https://wicg.github.io/background-sync/spec/#sync-manager-interface
+    filterStart("SyncManager");
+
+    // https://w3c.github.io/media-source/
+
+    let mediaSources = check(["MediaSource", "SourceBuffer", "SourceBufferList"])
+
+    // https://w3c.github.io/screen-orientation/
+    filterStart("ScreenOrientation");
+
+    // https://w3c.github.io/mediacapture-image/
+    let mediacaptureImages = check(["ImageCapture", "PhotoCapabilities", "PhotoSettings", "MediaSettingsRange"]);
+
+    // w3c webRTC
+    filterStart("RTC")
+
+    // on events
+    filterStart("on")
+
+    // WebGL
+    filterStart("WebGL")
+
+    console.log(names);
+  </script>
+</body>
+
+</html>
