@@ -70,7 +70,7 @@ namespace: 除了XML，还有MathML、SVG
 
 ## 二、浏览器API
 
-![Image text](https://github.com/Paulhejia/Frontend-02-Template/tree/master/week08/dom-api.jpg)
+![image](https://github.com/Paulhejia/Frontend-02-Template/tree/master/week08/dom-api.jpg)
 
 ### DOM
 
