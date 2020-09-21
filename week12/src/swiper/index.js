@@ -26,22 +26,61 @@ class Swiper  extends Component {
             img.classList.add('swiper-item')
             container.appendChild(img)
         }
-
+        const singleWidth = 500;
+        // 无缝滚动加长 block
+        const extraBlockLength = 3;
         let range = document.createRange();
         range.setStart(container, 0);
-        range.setEnd(container, 2);
+        range.setEnd(container, extraBlockLength);
   
         container.appendChild(range.cloneContents());
-
+        // 起始点是 5
+        let position = this.attributes.imgArrs.length;
+        let currentPos = -singleWidth * position;
+        container.style.transform = `translateX(${ currentPos }px)`;        
         container.addEventListener('mousedown', (e) => {
             let startX = e.clientX;
-
+            container.transition = 'none';  
             const mouseMove = (e) => {
-                let x = e.clientX - startX;
-                
+                let x = e.clientX - startX;                
+                container.style.transform = `translateX(${ currentPos + x }px)`;                    
+            }
+
+            const recovery = (e) => {                
+                console.log(e);
+                if( position === 0) {                    
+                    position = 5;
+                    currentPos = -singleWidth * position;
+                    container.style.transition = 'none'; 
+                    container.transform = `translateX(${ currentPos }px)` 
+                    
+                }
+                if(position === this.attributes.imgArrs.length + extraBlockLength - 1) {                                            
+                    position = 2;
+                    currentPos = -singleWidth * position;
+                    container.style.transition = 'none'; 
+                    container.transform = `translateX(${ currentPos }px)`; 
+                    
+                }
+                container.addEventListener('transitionend', recovery, false);
+                container.addEventListener('webkitTransitionEnd', recovery, false);                
             }
 
             const mouseUp = (e) => {
+                let x = e.clientX - startX;                
+                position = position - Math.round(x / singleWidth);
+                console.log(position);
+                container.style.transition = 'ease 0.5s'; 
+                currentPos = -singleWidth * position;
+                console.log(currentPos);
+                // 这里改成 
+                if( position === 0 || position === this.attributes.imgArrs.length + extraBlockLength - 1) {                     
+                    container.addEventListener('transitionend', recovery, false);
+                    container.addEventListener('webkitTransitionEnd', recovery, false);                    
+                }   
+                //setTimeout(() => {
+                    container.style.transform = `translateX(${ currentPos }px)` 
+                //}, 0)        
                 document.removeEventListener('mousemove', mouseMove)
                 document.removeEventListener('mouseup', mouseUp)
             }          
@@ -50,7 +89,7 @@ class Swiper  extends Component {
             document.addEventListener('mouseup', mouseUp)
         })
 
-        let singleWidth = 500;
+        
         let currentIdx = 0;
         // user active call
 
